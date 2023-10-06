@@ -134,5 +134,8 @@
     
 ## Reports
 
-- [wandb report](https://cellinobio.wandb.io/cellino-ml-ninjas/4x_conf_retrain/reports/4x-Confluence-V9-Challenger-Report--VmlldzoxNjk?accessToken=0qxrjrvsc9cpv3tb9njh9msh0t222lb3rqgj2j8rjllvxlhrpobl3a0yc81c01z4)
+- [wandb report-min loss](https://cellinobio.wandb.io/cellino-ml-ninjas/4x_conf_retrain/reports/4x-Confluence-V9-Challenger-Report-min-loss---VmlldzoxODI?accessToken=8x6jm1v4a0wnoiprmpxn2ztbn4yvadrsuw0snx9l5mn0log4mcmdqgrf7gi1ok9v)
+
+- [wandb report-last epoch](https://cellinobio.wandb.io/cellino-ml-ninjas/4x_conf_retrain/reports/4x-Confluence-V9-Challenger-Report--VmlldzoxNjk?accessToken=0qxrjrvsc9cpv3tb9njh9msh0t222lb3rqgj2j8rjllvxlhrpobl3a0yc81c01z4)
+
 - [Deck](https://docs.google.com/presentation/d/1_5tFtDnx_C2OJij3ZDbG1wFYoNYiwho-98Qw1ERSRwE/edit?usp=sharing)
