@@ -65,12 +65,20 @@ def single_confluence_predict(model_name, context_file):
     return mask, mask_img
 
 def main():
-    # model_name = 'model-magic-shadow-537:latest'
-    # model_name = 'sunny-waterfall-740:latest' # v9_v2
-    model_name = 'model-sunny-waterfall-740:v0'
-    context_file = 'context-002612-Oct_06_2023 09_29_02.json'
-    mask, mask_img = single_confluence_predict(model_name, context_file)
-    mask_img.save(pj('./tmp', model_name + '.png'))
+    # model_name = 'model-magic-shadow-537:latest' # v8
+    # model_name = 'sunny-waterfall-740:latest' # v9_v2, last epoch
+    # model_name = 'model-sunny-waterfall-740:v14' # 
+    # model_name = 'model-sunny-waterfall-740:v39' # v9_v2, lowest loss
+    # context_file = 'context-002612-Oct_06_2023 09_29_02.json'
+    # context_file = 'context-002653-Oct_16_2023 09_07_16.json'
+    # context_file = 'context-001897-Oct_17_2023 10_21_00.json'
+    context_file = 'context-002658-Oct_17_2023 13_02_38.json'
+    # context_file = 'context-002530-Oct_17_2023 13_13_57.json'
+
+    # for model_name in ['model-sunny-waterfall-740:v14', 'model-magic-shadow-537:latest']:
+    for model_name in ['model-magic-shadow-537:latest']:
+        mask, mask_img = single_confluence_predict(model_name, context_file)
+        mask_img.save(pj('./tmp', model_name + '.png'))
 
 if __name__=='__main__':
     main()

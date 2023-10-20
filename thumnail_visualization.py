@@ -272,7 +272,6 @@ def generate_thumbnail_zarr(credential_file: str = None, dir_exp='', scale_facto
         pass
     thumbnail_save(img, file_path, pj(dir_exp, 'visualization'), t_idx, second_type)
 
-
 def get_edge_mask(darr, patch_side = 256, radius=None):
     dim_y, dim_x = darr.shape
 
@@ -380,7 +379,7 @@ def build_save_patchdataset(patches, save_directory='debug'):
     '''
     patch_ds = patch.PatchDataset(patches)
     # generate_thumbnails_single_well(patch_ds, save_directory=save_directory, colormap=colormap, draw_patch=draw_patch)
-    generate_thumbnails_single_well(patch_ds, save_directory=save_directory)
+    generate_thumbnail_single_well(patch_ds, save_directory=save_directory)
 
 def read_artifactpaths(context_files):
     artifact_paths = []

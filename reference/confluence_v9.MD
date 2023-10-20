@@ -113,8 +113,9 @@
 - [wandb Runs](https://cellinobio.wandb.io/cellino-ml-ninjas/4x_conf_retrain/runs/2pg6ukmu)
     - confluence_v9_v2-733 - confluence_v9_v2-740
 - Selected challenger
-    - sunny-waterfall-740:latest: this one is the version from the last epoch
-    - model-waterfall-740:latest: this one is the version from the epoch with the lowest loss 
+    - sunny-waterfall-740:latest, this one is the version from the last epoch
+    - model-sunny-waterfall-740:latest, this one is the version from the epoch with the lowest loss 
+    - model-sunny-waterfall-740:v13, this one has no obvious overfitting
 
 ## Evaluation
 
