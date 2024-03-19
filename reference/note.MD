@@ -5,12 +5,18 @@ gcloud config set project project-aims-prod
 ```
 or 
 ```
-export GOOGLE_APPLICATION_CREDENTIALS=/home/shuhangwang/Documents/Keys/training-ml-worker-key.json
-export GOOGLE_APPLICATION_CREDENTIALS=/home/jupyter/Documents/Keys/training-ml-worker-key.json
+export GCP_KEY_PATH=/home/shuhangwang/Documents/Keys/training-ml-worker-key.json
 
 ```
+
+- GOOGLE_APPLICATION_CREDENTIALS is for personal account
+- GCP_KEY_PATH is for system account
 <!-- export GOOGLE_APPLICATION_CREDENTIALS=/home/shuhangwang/.config/gcloud/application_default_credentials.json -->
 <!-- service account -->
+
+<!-- export GOOGLE_APPLICATION_CREDENTIALS=/home/shuhangwang/Documents/Keys/training-ml-worker-key.json
+
+export GOOGLE_APPLICATION_CREDENTIALS=/home/jupyter/Documents/Keys/training-ml-worker-key.json -->
 
 # Resources
 - Files needed to run patch_selection_v8.py:
@@ -117,6 +123,16 @@ wandb login --relogin --host=https://cellinobio.wandb.io
 https://drive.google.com/file/d/1mG_cH2ThEcMtnmoGUhG17f9jYwDg9V8h/view
 
 
+# Zarr
+
+- zarr dimension
+time, channel, z, y, x
+
+# Miscellaneous
+
+- Cellino Query: https://insights.cellinobio.app/superset/sqllab
+
+- Check if the new release registry works: https://console.cloud.google.com/artifacts/python/project-ci-cd/us-central1/stargaze/ml-util?project=project-ci-cd
 
 <!-- # Permission Enabling Scripts to Access Google Cloud
 ```

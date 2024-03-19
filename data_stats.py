@@ -1,12 +1,20 @@
+# public package
 import collections
 from openpyxl import Workbook
 import pandas as pd
 import numpy as np
-from cellino_tiler import patch
 import json
 import os
 import ast
-pj = os.path.join
+import matplotlib.pyplot as plt
+from os.path import join as pj
+
+# cellino package
+from cellino_tiler import patch
+
+# sw package
+from sw_wandb_utils.wandb_utils import load_patches_wandb
+
 
 patch_dt = collections.defaultdict(int)
 def update_well_patch_map(patch_json_path):
@@ -52,17 +60,14 @@ def get_wells_info_from_patches(patch_json_path):
     
     return len(patches), sorted(list(brt_path_set)), sorted(list(brt_path_tidx_set)), sorted(list(well_set)), sorted(list(well_tidx_set))
 
-def get_patch_count_cat(patch_json_path):
+def get_patch_count_cat(patches):
     '''
-    load patches, get patch count for each category
+    get patch count for each category
     '''
     dt = collections.defaultdict(int)
-    patches = patch.PatchDataset.load_from_json(patch_json_path).get_patches()
     for p in patches:
-        # dt[p.attributes] += 1
-        if len(p.attributes)>0:
-            stop = True
-            import pdb; pdb.set_trace()
+        dt[p.attributes['category']] += 1
+    return dt
 
 def get_wells_info_from_csv(csv_path):
     df = pd.read_csv(csv_path)
@@ -86,22 +91,36 @@ def get_wells_info_from_csv(csv_path):
 
     return sorted(list(brt_path_set)), sorted(list(brt_path_tidx_set)), sorted(list(well_set)), sorted(list(well_tidx_set))
 
-def confluence_v9_patch_histogram():
-    '''
-    conf_v9_data_distribution.csv was created manually, including jason path and csv for each group of data
-    '''
+def confluence_patch_histogram():
+    # train & val of confluence v10, which is developing
+    entity = 'cellino-ml-ninjas'
+    project = '4x_conf_retrain'
+    artifact_names = ['4x_edge_patchdataset_train_val:v0', '4x_crystal_patchdataset_train_val:v0', '4x_conf_v10_base_patchdataset:v0']
 
-    dir_exp = '/home/shuhangwang/Documents/Dataset/conf_v9/'
-    conf_v9_data_path = pj(dir_exp, 'conf_v9_data_distribution.csv')
-    df = pd.read_csv(conf_v9_data_path)
-    for col in ['well_list', 'well_num', 'well_tidx_list', 'well_tidx_num', 'brt_path_list', 'brt_path_num', 'brt_path_tidx_list', 'brt_path_tidx_num']:
-        df[col] = np.nan
-    
-    for i in range(0 ,len(df)):
-        print(i, '...', df['patch_json_local_path'].iloc[i])
-        # get well info from patches
-        if df['patch_json_local_path'].iloc[i] is not np.nan:        
-            get_patch_count_cat(df['patch_json_local_path'].iloc[i])
+    patches = load_patches_wandb(entity, project, artifact_names)
+    category_counts = get_patch_count_cat(patches)
+    print(category_counts)
+    category_counts = {k: v for k, v in category_counts.items() if k != 'base'}
+
+    # Create a bar plot
+    plt.bar(category_counts.keys(), category_counts.values())
+
+    # Set the labels and title
+    plt.xlabel('Categories')
+    plt.ylabel('Count')
+    plt.title('Count of each Category')
+
+    # Rotate the x labels if necessary
+    plt.xticks(rotation=45)
+
+    plt.savefig('patch_category_counts.png', bbox_inches='tight', dpi=300)
+
+    # Show the plot
+    plt.show()
+
+
+
+
 
 def confluence_v9_analysis():
     '''
@@ -440,6 +459,6 @@ if __name__=='__main__':
     # pluripotency_v1_analysis()
     # consistency_check()
 
-    confluence_v9_patch_histogram()
+    confluence_patch_histogram()
     
 

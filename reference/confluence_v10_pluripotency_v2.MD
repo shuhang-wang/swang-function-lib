@@ -19,12 +19,16 @@ This document details the development and evaluation processes for Confluence V1
 ## Confluency Model v10
 
 ### Train_val patchdataset artifact
-    - 4x_edge_patchdataset_train_val:v0
-    - 4x_crystal_patchdataset_train_val:v0
+- [manual_v8](https://cellinobio.wandb.io/cellino-ml-ninjas/4x_data_preprocess/artifacts/conf_patchdataset_json/manual_v8/v0)
+- [auto_CELL-001859:v0](https://cellinobio.wandb.io/cellino-ml-ninjas/4x_data_preprocess/artifacts/conf_patchdataset_json/auto_CELL-001859/v0)
+- [edge_train_val:v0](https://cellinobio.wandb.io/cellino-ml-ninjas/4x_data_preprocess/artifacts/conf_patchdataset_json/edge_train_val/v0)
+- [crystal_train_val:v0](https://cellinobio.wandb.io/cellino-ml-ninjas/4x_data_preprocess/artifacts/conf_patchdataset_json/crystal_train_val/v0)
+    
 
 ### Test patchdataset artifact
-    - 4x_edge_patchdataset_test:v0
-    - 4x_crystal_patchdataset_test:v0
+- [edge_test:v0](https://cellinobio.wandb.io/cellino-ml-ninjas/4x_data_preprocess/artifacts/conf_patchdataset_json/edge_test/v0)
+- [crystal_test:v0](https://cellinobio.wandb.io/cellino-ml-ninjas/4x_data_preprocess/artifacts/conf_patchdataset_json/crystal_test/v0)
+
 
 ## Pluripotency Model v1
 
@@ -36,8 +40,10 @@ This document details the development and evaluation processes for Confluence V1
 - **Workflow to Generate Two tfrecord Artifacts**
     1. **Create Plurimask:**
         - File: `Cell ID - Centralized Ground Truth Log - 4X Confluence Ground Truth.csv`
-        - Script: [wandb:create_plurimask_from_tags.py](https://cellinobio.wandb.io/cellino-ml-ninjas/4x_pluripotency/runs/lh4mmjha/code) or [github repo](https://github.com/cellino-biotech/wp_cell_id/tree/main/scripts)
-        - Output: `gt_pluri_4x_manual:v1(file_table.csv)`
+        - Script: [wandb:create_plurimask_from_tags.py](https://cellinobio.wandb.io/cellino-ml-ninjas/4x_pluripotency/runs/lh4mmjha/code) or [github repo](https://github.com/cellino-biotech/wp_cell_id/tree/main/scripts), [new script](https://github.com/cellino-biotech/4x_pluripotency_tf/blob/main/src/aims_tools.py#L30C5-L30C5)
+        - Output 1: `gt_pluri_4x_manual:v1(file_table.csv)`
+        - Output 2: `/media/slee/DATA1/DL/data/pluripotency/Pluri_manual_mask (zarr files)` --> Manually uploaded to `cellino-ml-training/4x_pluri/pluri_manual_mask_ver0`
+
     
     2. **From Ground Truth to Edge TFRecord:**
         - Source: `gt_pluri_4x_manual:v1(file_table.csv)`
@@ -108,3 +114,21 @@ Execute the following command to evalue the model
 - Clone [mlops](https://github.com/cellino-biotech/mlops)
 - Run mlops$ python run_4x_pluripotency_pipeline_v2.py
 - [Track pipeline](https://console.cloud.google.com/vertex-ai/pipelines/runs?project=project-ml-training-prod)
+
+
+
+
+## Workflow to test the training
+
+Base trainer in repo 1
+
+confluence trainer in repo 2
+pluri trainer in repo 3
+
+
+In the situation base trainer is updated, how to check if it affects the confluence trainer on Vertex AI ?
+Can we test it automatically?
+
+
+Docker
+packages installation
