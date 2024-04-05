@@ -7,6 +7,8 @@ or
 ```
 export GCP_KEY_PATH=/home/shuhangwang/Documents/Keys/training-ml-worker-key.json
 
+export GCP_KEY_PATH=/home/jupyter/Documents/Keys/training-ml-worker-key.json
+
 ```
 
 - GOOGLE_APPLICATION_CREDENTIALS is for personal account

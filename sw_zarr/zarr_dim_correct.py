@@ -3,7 +3,7 @@ import os
 from stargaze_util.cellino_zarr import CellinoZarr
 from stargaze_util.helpers.zarr_helpers import copy_to_new_zarr
 import dask.array as da
-
+ 
 src_zarr_path = 'starlight-computing/IMX_Imaging_v2/CELL-001728/4x-confluence-gt_t0.3/Processed_CELL-001728_D2_t0'
 # loading the zarr and manipulate the shape
 project_id = 'cellino-plate-db'

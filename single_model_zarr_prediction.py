@@ -34,9 +34,7 @@ def single_confluence_predict(model_name, context_file):
     z_indices = [0, 1, 2, 3]
 
     api = wandb.Api()
-    entity = 'cellino-ml-ninjas'
-    project = '4x_conf_retrain'
-    model_art = api.artifact(f'{entity}/{project}/{model_name}')
+    model_art = api.artifact(model_name)
     model_path = Path(model_art.download())
 
     model = keras.models.load_model(model_path, compile=False)
@@ -67,7 +65,7 @@ def single_confluence_predict(model_name, context_file):
 
     # save
     file_name = f"CELL-{'-'.join(artifact_path['blob_path'].split('/')[1:3])}-t{artifact_path['time_slice_index']}"
-    mask_zarr_path = pj('/home/shuhangwang/Documents/Code/swang_lib/tmp/zarr', f'{file_name}-{model_name}')
+    mask_zarr_path = pj('/home/shuhangwang/Documents/Code/swang_lib/tmp/zarr', f"{file_name}-{model_name.split('/')[-1]}")
     chunk_size = (1024,1024)
 
     # mask_dask = da.from_array(mask, chunks=chunk_size)
@@ -82,32 +80,18 @@ def single_confluence_predict(model_name, context_file):
     return mask, mask_img, file_name
 
 def main():
-    # model_name = 'model-magic-shadow-537:latest' # v8
-    # model_name = 'sunny-waterfall-740:latest' # v9_v2, last epoch
-    # model_name = 'model-sunny-waterfall-740:v14' # 
-    # model_name = 'model-sunny-waterfall-740:v39' # v9_v2, lowest loss
-    # context_file = 'context-002612-Oct_06_2023 09_29_02.json'
-    # context_file = 'context-002653-Oct_16_2023 09_07_16.json'
-    # context_file = 'context-001897-Oct_17_2023 10_21_00.json'
-    # context_file = 'context-002658-Oct_17_2023 13_02_38.json'
-    # context_file = 'context-002530-Oct_17_2023 13_13_57.json'
+    model_names = ['cellino-ml-ninjas/4x_pluri_maintenance/model-different-feather-21:v17', # pluri
+                   'cellino-ml-ninjas/4x_confluence_maintenance/model-jolly-serenity-319:v32' # confluence
+                   ]  
+    
 
-    context_file = '/home/shuhangwang/Documents/Dataset/conf_v10/test_contexts/CELL-002802-A4-2.json'
-    # context_file = '/home/shuhangwang/Documents/Dataset/conf_v10/test_contexts/CELL-002802-A4-5.json'
-    # context_file = '/home/shuhangwang/Documents/Dataset/conf_v10/test_contexts/CELL-002804-C3-2.json'
-    # context_file = '/home/shuhangwang/Documents/Dataset/conf_v10/test_contexts/CELL-002804-C3-5.json'
-
-
-    # for model_name in ['model-sunny-waterfall-740:v14', 'model-magic-shadow-537:latest']:
-    # for model_name in ['model-magic-shadow-537:latest', 'model-kind-wave-816:v5']:
-    # for model_name in ['model-kind-wave-816:v10', 'model-kind-wave-816:v5']:
-    # for model_name in ['model-kind-wave-816:v0', 'model-kind-wave-816:v1']:
-    # for model_name in ['model-eager-aardvark-821:v0', 'model-eager-aardvark-821:v5']:
-    # for model_name in ['model-rose-cherry-830:v62', 'model-rose-cherry-830:v20']:
-    for model_name in ['model-super-field-826:v78',]:
-    # for model_name in ['model-magic-shadow-537:latest',]:
+    # context_file = '/home/shuhangwang/Documents/Code/swang_lib/tmp/zarr/context-002571-Mar_19_2024 15_48_07.json'
+    # context_file = '/home/shuhangwang/Documents/Code/swang_lib/tmp/zarr/context-002657-Mar_20_2024 07_11_32.json'
+    context_file = '/home/shuhangwang/Documents/Code/swang_lib/tmp/zarr/context-002571-Mar_20_2024 07_28_37.json'
+    
+    for model_name in model_names:
         mask, mask_img, file_name = single_confluence_predict(model_name, context_file)
-        mask_img.save(pj('./tmp', f"{file_name}-{model_name}.png"))
+        mask_img.save(pj('./tmp', f"{file_name}-{model_name.split('/')[-1]}.png"))
 
 if __name__=='__main__':
     main()
