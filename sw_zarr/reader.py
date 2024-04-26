@@ -37,6 +37,7 @@ def read_zarr(context_file=None, artifact_path=None, zarr_path=None, is_local=Fa
     one out of context_file, artifact_path and zarr_path should be provided
     read zarr data as numpy array
     '''
+    # import pdb; pdb.set_trace()
     if is_local:
         zarr = CellinoZarr(zarr_path, is_local=True)
         time_slice_index = 0
@@ -54,13 +55,17 @@ def read_zarr(context_file=None, artifact_path=None, zarr_path=None, is_local=Fa
     zarr_root = da.from_zarr(zarr_root['0'])
     if len(zarr_root.shape)==3:
         # for mask of ground truth
-        darr = zarr_root[time_slice_index, slice(None), slice(None)].astype(np.float16).compute()
+        # darr = zarr_root[time_slice_index, slice(None), slice(None)].astype(np.float16).compute()
+        darr = zarr_root[time_slice_index, slice(None), slice(None)].astype(np.float32)
     else:
         # for dim of (time, channel, z, y, x)
-        darr = zarr_root[time_slice_index, 0, 0, slice(None), slice(None)].astype(np.float16).compute()
+        # TODO: [time_slice_index, 0, 0, slice(None), slice(None)]-->[time_slice_index, 0, :, slice(None), slice(None)]
+        # Some functions based on this function might to be updated
+        # darr = zarr_root[time_slice_index, 0, 0, slice(None), slice(None)].astype(np.float16).compute()
+        darr = zarr_root[time_slice_index, 0, :, slice(None), slice(None)].astype(np.float32)
+        darr = np.transpose(darr, (1, 2, 0))
     
     return (zarr, darr, artifact_path,)
-
 
 if __name__=='__main__':
     
