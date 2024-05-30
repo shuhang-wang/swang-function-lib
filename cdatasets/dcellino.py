@@ -79,12 +79,15 @@ class RandomRotate(object):
         rotated_image = cv2.warpAffine(img, rotation_matrix, (width, height), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_REFLECT_101)
         return rotated_image
     
-class GaussianBlur(object):
-    def __init__(self, kernel_size) -> None:
-        self.kernel_size = kernel_size
-    def __call__(self, img):
-        blurred_image = cv2.GaussianBlur(img, (self.kernel_size, self.kernel_size), 0)
-        return blurred_image
+class RandomGaussianBlur(object):
+    def __init__(self, radius) -> None:
+        self.radius = radius
+    def __call__(self, img, p=0.5):
+        if random.random() < p:
+            kernel_size = random.randint(1, self.radius) * 2 + 1
+            blurred_image = cv2.GaussianBlur(img, (kernel_size, kernel_size), 0)
+            return blurred_image
+        return img
     
 class RandomGrayscale(object):
     def __call__(self, img, p=0.2):
@@ -157,7 +160,7 @@ def get_simclr_pipeline_transform_cellino(image_size=256):
                             Resize((image_size, image_size)), 
                             RandomFlip(),
                             RandomRotate(),
-                            GaussianBlur(kernel_size = int(0.1 * image_size)),
+                            RandomGaussianBlur(radius = int(0.03 * image_size)),
                             RandomGrayscale(),
                             RandomJitter(),
                             transforms.ToTensor(),])
