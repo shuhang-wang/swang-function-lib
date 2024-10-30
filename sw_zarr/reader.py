@@ -51,7 +51,9 @@ def read_zarr(context_file=None, artifact_path=None, zarr_path=None, is_local=Fa
     
     zarr_root = zarr.get_zarr_root()
     
-    # the z_slice is set to 0
+    # ‘0’ refers to the full resolution of the image. 0 means no multiscale
+    # if the image is multiscaled, it should have ‘1’, ‘2’, 
+    # the number is the downscaled number
     zarr_root = da.from_zarr(zarr_root['0'])
     if len(zarr_root.shape)==3:
         # for mask of ground truth

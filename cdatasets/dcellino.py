@@ -154,7 +154,7 @@ class BrtTileDataset(torch.utils.data.Dataset):
     def __len__(self):
         return len(self.img_paths)
 
-def get_simclr_pipeline_transform_cellino(image_size=256):
+def get_simclr_pipeline_transform_cellino(image_size=224):
         data_transforms =  transforms.Compose([
                             RandomCrop(),
                             Resize((image_size, image_size)), 
@@ -177,7 +177,7 @@ def get_dataloader(image_dir, cfg):
         Resize((image_size, image_size)), 
         RandomFlip(),
         RandomRotate(),
-        GaussianBlur(kernel_size = int(0.1 * image_size)),
+        RandomGaussianBlur(kernel_size = int(0.1 * image_size)),
         RandomGrayscale(),
         RandomJitter(),
         transforms.ToTensor(),])
